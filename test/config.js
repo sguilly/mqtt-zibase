@@ -8,12 +8,10 @@ config.mqttBrokerIp = '188.213.25.148';
 config.mqttBrokerPort = '3001';
 
 config.mqttBrokerTopic = 'mochaTest';
+config.mqttIdClient = 'mochaTestId';
 
 config.zibaseIp = '192.168.0.18'; // <- Enter LAN IP address
 
-config.platform = 'zibase.net';
-config.zibase = 'ZiBASE0051b0'; // <- Enter Main Identifier
-config.token = '1834e9ead4'; // <- Enter Token
-config.debug = true;
+config.debugLevel = 'trace';
 
 module.exports = config;

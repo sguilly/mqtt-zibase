@@ -12,9 +12,9 @@ var mqttZibase = require('../lib/mqtt-zibase');
 
 var opts = {
   logger: {
-    name: 'myapp',
+    name: 'mqtt-zibase-bridge',
     streams: [{
-      level: 'trace',
+      level: 'info',
       type: 'raw',
       stream: prettyStdOut
     }]
@@ -26,7 +26,9 @@ var opts = {
   },
   mqtt: {
     ip : '188.213.25.148',
-    port: 3001 // tcp
+    port: 3001, // tcp
+    topic: 'mqtt-zibase/ZiBASE0051b0',
+    clientId : 'ZiBASE0051b0'
   }
 };
 

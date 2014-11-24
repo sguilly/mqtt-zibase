@@ -4,9 +4,11 @@
 
 var mqtt = require('mqtt');
 
+console.log('Start');
+
 var consumer = mqtt.createClient(3001, '188.213.25.148',{clean:false,encoding:'utf8', clientId: 'consumerTest'});
 
-consumer.subscribe('mqtt-zibase', {qos:0});
+consumer.subscribe('mqtt-zibase/#', {qos:0});
 
 consumer.on('message',function(topic,message)
 {

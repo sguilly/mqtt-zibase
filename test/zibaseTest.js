@@ -2,8 +2,8 @@
  * Created by sguilly on 21/11/14.
  */
 
-/*jshint expr: false, unused: false*/
-/*global describe, it, before, after */
+/*jshint expr: true, unused: false*/
+/*global describe, it, before, after, not */
 'use strict';
 
 var PrettyStream = require('bunyan-prettystream');
@@ -20,7 +20,7 @@ var opts = {
   logger: {
     name: 'myapp',
     streams: [{
-      level: 'error',
+      level: config.debugLevel,
       type: 'raw',
       stream: prettyStdOut
     }]
@@ -132,6 +132,49 @@ describe('Create subscribe buffer :', function() {
     });
 
 });
+
+describe('Parse msg', function() {
+
+  it('should return an object', function () {
+
+    var msgPower = "Received radio ID (<rf>433Mhz OWL</rf> Noise=<noise>2190</noise> Level=<lev>5.0</lev>/5 <dev>High-Power Measure</dev> Ch=<ch>2</ch> Total Energy=<kwh>2419.9</kwh>kWh Power=<w>500</w>W Batt=<bat>Ok</bat>): <id>WS134494</id>";
+    var obj = lib.parseMessage(msgPower);
+
+    lib.log.trace(obj);
+
+    obj.id.should.be.exactly('WS134494');
+    obj.kwh.should.be.exactly(2419.9);
+    obj.w.should.be.exactly(500);
+
+    var msgAlarm = "Received radio ID (<rf>868Mhz </rf> Noise=<noise>2362</noise> Level=<lev>5.0</lev>/5  <dev>Remote Control</dev>  Flags= <flag1>Alarm</flag1>  Batt=<bat>Ok</bat>): <id>VS3181560866</id>";
+
+    obj = lib.parseMessage(msgAlarm);
+
+    obj.id.should.be.exactly('VS3181560866');
+    obj.alarm.should.be.exactly(true);
+
+    var msgTempHum = "Received radio ID (<rf>433Mhz Oregon</rf> Noise=<noise>2208</noise> Level=<lev>3.1</lev>/5 <dev>THGx8x0</dev> Ch=<ch>1</ch> T=<tem>+19.4</tem>C (+66.9F) Humidity=<hum>64</hum>%  Batt=<bat>Ok</bat>): <id>OS4196979713</id>";
+
+    obj = lib.parseMessage(msgTempHum);
+
+    obj.id.should.be.exactly('OS4196979713');
+    obj.tem.should.be.exactly(19.4);
+    obj.hum.should.be.exactly(64);
+
+    var wrongMsg = "Wrong message";
+
+    obj = lib.parseMessage(wrongMsg);
+
+    should(obj).not.be.ok;
+
+
+
+  });
+
+
+});
+
+
 
 describe('When subscribe to zibase gateway :'+config.zibaseIp+' (UDP connection)', function() {
 
