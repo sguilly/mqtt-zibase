@@ -43,7 +43,7 @@
     "time-grunt": "^0.3.1"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt"
   },
   "preferGlobal": "true",
   "dependencies": {
