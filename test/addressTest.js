@@ -7,10 +7,27 @@
 'use strict';
 var should = require('should');
 
+var PrettyStream = require('bunyan-prettystream');
+
+var prettyStdOut = new PrettyStream();
+prettyStdOut.pipe(process.stdout);
+
+var config = require('./config.js');
+
+var opts = {
+  logger: {
+    name: 'myapp',
+    streams: [{
+      level: config.debugLevel,
+      type: 'raw',
+      stream: prettyStdOut
+    }]
+  }
+};
 
 var zibaseClient = require('../lib/zibase/zibaseClient');
 
-var lib = zibaseClient();
+var lib = zibaseClient(opts);
 
 describe('Test address decode/parse :', function() {
 
