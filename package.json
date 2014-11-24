@@ -48,7 +48,9 @@
   "preferGlobal": "true",
   "dependencies": {
     "bunyan": "^1.2.3",
+    "bunyan-prettystream": "^0.1.3",
     "conflate": "^1.1.0",
+    "grunt": "^0.4.5",
     "mqtt": "^0.3.13"
   }
 }
