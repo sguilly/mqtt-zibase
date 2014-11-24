@@ -5,10 +5,34 @@
 /*jshint expr: false, unused: false*/
 /*global describe, it, before, after */
 'use strict';
+
+var PrettyStream = require('bunyan-prettystream');
+
+var prettyStdOut = new PrettyStream();
+prettyStdOut.pipe(process.stdout);
+
 var should = require('should');
 var config = require('./config.js');
 
-var zibaseClient = require('../lib/zibaseClient');
+var zibaseClient = require('../lib/zibase/zibaseClient');
+
+var opts = {
+  logger: {
+    name: 'myapp',
+    streams: [{
+      level: 'error',
+      type: 'raw',
+      stream: prettyStdOut
+    }]
+  },
+  zibase: {
+    ip: '192.168.0.18',
+    port: 17100 // tcp,
+
+  }
+};
+
+var lib = zibaseClient(opts);
 
 describe('Create subscribe buffer :', function() {
 
@@ -91,7 +115,7 @@ describe('Create subscribe buffer :', function() {
 
         var bufCreated = new Buffer(70);
 
-        bufCreated = zibaseClient.getSubscribeBuffer('192.168.0.1');
+        bufCreated = lib.getSubscribeBuffer('192.168.0.1');
 
         var same = true;
 
@@ -114,18 +138,16 @@ describe('When subscribe to zibase gateway :'+config.zibaseIp+' (UDP connection)
     it('should receive : Zapi linked to host', function (done) {
 
 
-        zibaseClient.subscribe(config.zibaseIp);
-        zibaseClient.serverUDP.on("message", function (msg, rinfo) {
+        lib.subscribe(opts);
+        lib.getConnection().on("message", function (msg, rinfo) {
             msg = msg.slice(70);
             var message = msg.toString();
-
-//            console.log('>>'+msg);
 
             if(message.indexOf('Zapi linked to host') > -1)
             {
                 done();
 
-                zibaseClient.unsubscribe(config.zibaseIp);
+                lib.unsubscribe(config.zibaseIp);
             }
 
         });
