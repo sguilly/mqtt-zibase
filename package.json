@@ -51,6 +51,7 @@
     "bunyan-prettystream": "^0.1.3",
     "conflate": "^1.1.0",
     "grunt": "^0.4.5",
+    "ido4pro-logger": "git+https://bitbucket.org/sguilly/ido4pro-logger.git",
     "mqtt": "^0.3.13"
   }
 }
