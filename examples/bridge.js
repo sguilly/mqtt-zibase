@@ -2,8 +2,8 @@
  * Created by sguilly on 21/11/14.
  */
 
-var logger = require('ido4pro-logger');
-logger.createLogger({name: "zibaseToMqtt", level: 'trace', console: true, path : __dirname});
+var bunyan = require('bunyan');
+var logger = bunyan.createLogger({name: "myapp"});
 
 var mqttZibase = require('../lib/mqtt-zibase');
 
@@ -14,13 +14,14 @@ var opts = {
 
   },
   mqtt: {
-    ip : '188.213.25.148',
+    ip: 'x.x.x.148',
     port: 1883, // tcp
-    topic: 'mqtt-zibase/ZiBASE0051b0',
-    clientId : 'ZiBASE0051b0',
+    topic: 'mqtt-zibase/ZiBASExxxx',
+    clientId: 'ZiBASExxxxxx',
     username: 'zibaseToMqtt',
-    password: '****'
-  }
+    password: 'xxxxx'
+  },
+  logger: logger // OPTIONAL
 };
 
 var bridge = mqttZibase(opts);

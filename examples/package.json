@@ -4,7 +4,6 @@
 
   "dependencies": {
     "bunyan": "^1.2.3",
-    "bunyan-prettystream": "^0.1.3",
-    "mqtt-zibase": "git+https://github.com/sguilly/mqtt-zibase.git"
+    "mqtt-zibase": "git+https://sguilly:***@github.com/sguilly/mqtt-zibase.git"
   }
 }
